@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+
+{% block title %}Wishlist - ShopZone{% endblock %}
+
+{% block content %}
+
+<section class="page-section">
+
+    <h1>❤️ My Wishlist</h1>
+
+
+    {% if products %}
+
+    <div class="product-grid">
+
+        {% for product in products %}
+
+        <div class="product-card">
+
+            <div class="product-image">
+
+                <img src="{{ product['image'] }}"
+                     alt="{{ product['name'] }}">
+
+            </div>
+
+
+            <div class="product-info">
+
+                <h3>
+                    {{ product['name'] }}
+                </h3>
+
+                <p class="product-category">
+                    {{ product['category'] }}
+                </p>
+
+                <div class="rating">
+                    ⭐ {{ product['rating'] }}
+                </div>
+
+                <div class="price">
+                    ₹{{ "%.0f"|format(product['price']) }}
+                </div>
+
+
+                <a href="{{ url_for('add_to_cart',
+                          product_id=product['id']) }}"
+                   class="add-cart">
+
+                    🛒 Add to Cart
+
+                </a>
+
+
+                <a href="{{ url_for('remove_from_wishlist',
+                          product_id=product['id']) }}"
+                   class="wishlist-card-btn">
+
+                    ❌ Remove
+
+                </a>
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+    {% else %}
+
+    <div class="empty-box">
+
+        <div>❤️</div>
+
+        <h2>Your wishlist is empty</h2>
+
+        <p>
+            Save products you love here.
+        </p>
+
+        <a href="/" class="primary-btn">
+            Continue Shopping
+        </a>
+
+    </div>
+
+    {% endif %}
+
+</section>
+
+{% endblock %}

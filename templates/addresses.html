@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block title %}Address - ShopZone{% endblock %}
+
+{% block content %}
+
+<section class="page-section">
+
+    <h1>🏠 Saved Address</h1>
+
+
+    {% if user['address'] %}
+
+    <div class="address-card">
+
+        <h2>Home Address</h2>
+
+        <p>
+            <strong>{{ user['name'] }}</strong>
+        </p>
+
+        <p>
+            {{ user['phone'] }}
+        </p>
+
+        <p>
+            {{ user['address'] }}
+        </p>
+
+        <p>
+            {{ user['city'] }} -
+            {{ user['pincode'] }}
+        </p>
+
+    </div>
+
+    {% else %}
+
+    <div class="empty-box">
+
+        <div>🏠</div>
+
+        <h2>No saved address</h2>
+
+        <p>
+            Your address will be saved automatically when you place an order.
+        </p>
+
+        <a href="{{ url_for('checkout') }}"
+           class="primary-btn">
+
+            Go to Checkout
+
+        </a>
+
+    </div>
+
+    {% endif %}
+
+</section>
+
+{% endblock %}

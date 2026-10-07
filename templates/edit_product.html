@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Product - ShopZone{% endblock %}
+
+{% block content %}
+
+<section class="page-section">
+
+    <div class="form-card">
+
+        <h1>Edit Product</h1>
+
+        <form method="POST">
+
+            <label>Product Name</label>
+
+            <input type="text"
+                   name="name"
+                   value="{{ product['name'] }}"
+                   required>
+
+
+            <label>Category</label>
+
+            <input type="text"
+                   name="category"
+                   value="{{ product['category'] }}"
+                   required>
+
+
+            <label>Price</label>
+
+            <input type="number"
+                   name="price"
+                   value="{{ product['price'] }}"
+                   step="0.01"
+                   required>
+
+
+            <label>Old Price</label>
+
+            <input type="number"
+                   name="old_price"
+                   value="{{ product['old_price'] }}"
+                   step="0.01">
+
+
+            <label>Rating</label>
+
+            <input type="number"
+                   name="rating"
+                   value="{{ product['rating'] }}"
+                   min="0"
+                   max="5"
+                   step="0.1">
+
+
+            <label>Stock</label>
+
+            <input type="number"
+                   name="stock"
+                   value="{{ product['stock'] }}"
+                   min="0"
+                   required>
+
+
+            <label>Image URL</label>
+
+            <input type="text"
+                   name="image"
+                   value="{{ product['image'] }}">
+
+
+            <label>Description</label>
+
+            <textarea name="description">{{ product['description'] }}</textarea>
+
+
+            <button class="primary-btn">
+                Save Changes
+            </button>
+
+        </form>
+
+    </div>
+
+</section>
+
+{% endblock %}

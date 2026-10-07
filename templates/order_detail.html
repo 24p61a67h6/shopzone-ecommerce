@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% block title %}Order #{{ order['id'] }} - ShopZone{% endblock %}
+
+{% block content %}
+
+<section class="page-section">
+
+    <h1>
+        Order #{{ order['id'] }}
+    </h1>
+
+
+    <div class="order-status-box">
+
+        <h2>Order Status</h2>
+
+        <div class="status">
+            {{ order['status'] }}
+        </div>
+
+    </div>
+
+
+    <div class="order-items">
+
+        <h2>Products</h2>
+
+
+        {% for item in items %}
+
+        <div class="order-item">
+
+            <div>
+
+                <h3>
+                    {{ item['product_name'] }}
+                </h3>
+
+                <p>
+                    Quantity: {{ item['quantity'] }}
+                </p>
+
+            </div>
+
+            <strong>
+                ₹{{ "%.0f"|format(item['price'] * item['quantity']) }}
+            </strong>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+
+    <div class="summary-card">
+
+        <h2>Delivery Details</h2>
+
+        <p>{{ order['name'] }}</p>
+
+        <p>{{ order['phone'] }}</p>
+
+        <p>{{ order['address'] }}</p>
+
+        <p>
+            {{ order['city'] }} -
+            {{ order['pincode'] }}
+        </p>
+
+        <hr>
+
+        <h2>
+            Total: ₹{{ "%.0f"|format(order['total']) }}
+        </h2>
+
+    </div>
+
+</section>
+
+{% endblock %}

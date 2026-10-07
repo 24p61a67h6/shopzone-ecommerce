@@ -1,0 +1,188 @@
+{% extends "base.html" %}
+
+{% block title %}Checkout - ShopZone{% endblock %}
+
+{% block content %}
+
+<section class="page-section">
+
+    <h1>Checkout</h1>
+
+
+    <div class="checkout-layout">
+
+        <div class="checkout-form">
+
+            <h2>Delivery Details</h2>
+
+            <form method="POST">
+
+                <label>Name</label>
+
+                <input type="text"
+                       name="name"
+                       value="{{ user['name'] }}"
+                       required>
+
+
+                <label>Phone</label>
+
+                <input type="text"
+                       name="phone"
+                       value="{{ user['phone'] }}"
+                       required>
+
+
+                <label>Address</label>
+
+                <textarea name="address"
+                          required>{{ user['address'] }}</textarea>
+
+
+                <label>City</label>
+
+                <input type="text"
+                       name="city"
+                       value="{{ user['city'] }}"
+                       required>
+
+
+                <label>Pincode</label>
+
+                <input type="text"
+                       name="pincode"
+                       value="{{ user['pincode'] }}"
+                       required>
+
+
+                <h3>Payment Method</h3>
+
+                <label class="payment-option">
+
+                    <input type="radio"
+                           name="payment"
+                           value="Cash on Delivery"
+                           checked>
+
+                    Cash on Delivery
+
+                </label>
+
+
+                <label class="payment-option">
+
+                    <input type="radio"
+                           name="payment"
+                           value="UPI">
+
+                    UPI
+
+                </label>
+
+
+                <label class="payment-option">
+
+                    <input type="radio"
+                           name="payment"
+                           value="Card">
+
+                    Card
+
+                </label>
+
+
+                <button class="checkout-btn">
+                    Place Order
+                </button>
+
+            </form>
+
+        </div>
+
+
+        <div class="summary-card">
+
+            <h2>Order Summary</h2>
+
+
+            {% for item in products %}
+
+            <div class="summary-product">
+
+                <span>
+                    {{ item['product']['name'] }}
+                    × {{ item['quantity'] }}
+                </span>
+
+                <strong>
+                    ₹{{ "%.0f"|format(item['item_total']) }}
+                </strong>
+
+            </div>
+
+            {% endfor %}
+
+
+            <hr>
+
+
+            <div class="summary-row">
+
+                <span>Subtotal</span>
+
+                <strong>
+                    ₹{{ "%.0f"|format(subtotal) }}
+                </strong>
+
+            </div>
+
+
+            {% if discount > 0 %}
+
+            <div class="summary-row discount">
+
+                <span>
+                    Discount ({{ coupon }})
+                </span>
+
+                <strong>
+                    -₹{{ "%.0f"|format(discount) }}
+                </strong>
+
+            </div>
+
+            {% endif %}
+
+
+            <div class="summary-row">
+
+                <strong>Total</strong>
+
+                <strong>
+                    ₹{{ "%.0f"|format(total) }}
+                </strong>
+
+            </div>
+
+
+            <form method="POST"
+                  action="{{ url_for('apply_coupon') }}"
+                  class="coupon-form">
+
+                <input type="text"
+                       name="coupon"
+                       placeholder="Coupon code">
+
+                <button>
+                    Apply
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

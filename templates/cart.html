@@ -1,0 +1,137 @@
+{% extends "base.html" %}
+
+{% block title %}Cart - ShopZone{% endblock %}
+
+{% block content %}
+
+<section class="page-section">
+
+    <h1>🛒 Shopping Cart</h1>
+
+
+    {% if products %}
+
+    <div class="cart-layout">
+
+        <div>
+
+            {% for item in products %}
+
+            <div class="cart-item">
+
+                <img src="{{ item['product']['image'] }}"
+                     alt="{{ item['product']['name'] }}">
+
+
+                <div class="cart-info">
+
+                    <h3>
+                        {{ item['product']['name'] }}
+                    </h3>
+
+                    <p>
+                        ₹{{ "%.0f"|format(item['product']['price']) }}
+                    </p>
+
+
+                    <div class="quantity">
+
+                        <a href="{{ url_for('decrease',
+                                  product_id=item['product']['id']) }}">
+                            −
+                        </a>
+
+                        <span>
+                            {{ item['quantity'] }}
+                        </span>
+
+                        <a href="{{ url_for('increase',
+                                  product_id=item['product']['id']) }}">
+                            +
+                        </a>
+
+                    </div>
+
+
+                    <p>
+                        Item Total:
+                        <strong>
+                            ₹{{ "%.0f"|format(item['item_total']) }}
+                        </strong>
+                    </p>
+
+
+                    <a href="{{ url_for('remove',
+                              product_id=item['product']['id']) }}"
+                       class="remove-btn">
+                        Remove
+                    </a>
+
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+
+        <div class="summary-card">
+
+            <h2>Price Details</h2>
+
+            <div class="summary-row">
+
+                <span>Total</span>
+
+                <strong>
+                    ₹{{ "%.0f"|format(total) }}
+                </strong>
+
+            </div>
+
+            <hr>
+
+            <div class="summary-row">
+
+                <strong>Final Amount</strong>
+
+                <strong>
+                    ₹{{ "%.0f"|format(total) }}
+                </strong>
+
+            </div>
+
+
+            <a href="{{ url_for('checkout') }}"
+               class="checkout-btn">
+
+                Proceed to Checkout
+
+            </a>
+
+        </div>
+
+    </div>
+
+    {% else %}
+
+    <div class="empty-box">
+
+        <div>🛒</div>
+
+        <h2>Your cart is empty</h2>
+
+        <p>Add some products to continue shopping.</p>
+
+        <a href="/" class="primary-btn">
+            Start Shopping
+        </a>
+
+    </div>
+
+    {% endif %}
+
+</section>
+
+{% endblock %}

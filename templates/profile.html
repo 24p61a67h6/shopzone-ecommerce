@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<section class="profile-section">
+
+    <div class="profile-card">
+
+        <div class="profile-header">
+            <div class="profile-icon">
+                👤
+            </div>
+
+            <h1>My Profile</h1>
+            <p>Manage your ShopZone account</p>
+        </div>
+
+        {% if success %}
+            <div class="success-message">
+                {{ success }}
+            </div>
+        {% endif %}
+
+        {% if error %}
+            <div class="error-message">
+                {{ error }}
+            </div>
+        {% endif %}
+
+        <form method="POST">
+
+            <div class="form-group">
+                <label for="name">Full Name</label>
+
+                <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    value="{{ user['name'] }}"
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email Address</label>
+
+                <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    value="{{ user['email'] }}"
+                    required
+                >
+            </div>
+
+            <div class="profile-info">
+
+                <div>
+                    <span>Account ID</span>
+                    <strong>#{{ user['id'] }}</strong>
+                </div>
+
+                <div>
+                    <span>Account Type</span>
+                    <strong>Customer</strong>
+                </div>
+
+            </div>
+
+            <button type="submit" class="profile-button">
+                Save Changes
+            </button>
+
+        </form>
+
+    </div>
+
+</section>
+
+{% endblock %}

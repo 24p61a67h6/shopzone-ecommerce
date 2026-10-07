@@ -1,0 +1,266 @@
+{% extends "base.html" %}
+
+{% block title %}ShopZone - Online Shopping{% endblock %}
+
+{% block content %}
+
+<div class="categories">
+
+    <a href="/">🏠 All</a>
+    <a href="/?category=Mobiles">📱 Mobiles</a>
+    <a href="/?category=Electronics">💻 Electronics</a>
+    <a href="/?category=Fashion">👕 Fashion</a>
+    <a href="/?category=Home">🏠 Home</a>
+    <a href="/?category=Beauty">💄 Beauty</a>
+    <a href="/?category=Grocery">🛒 Grocery</a>
+    <a href="/?category=Shoes">👟 Shoes</a>
+
+</div>
+
+
+<section class="hero">
+
+    <div>
+
+        <h1>Big Shopping Festival</h1>
+
+        <p>
+            Great products. Great prices. Great deals.
+        </p>
+
+        <a href="#products" class="hero-btn">
+            Shop Now
+        </a>
+
+    </div>
+
+</section>
+
+
+<section class="filter-section">
+
+    <form method="GET"
+          action="{{ url_for('home') }}"
+          class="filter-form">
+
+        <input type="hidden"
+               name="search"
+               value="{{ search }}">
+
+        <input type="hidden"
+               name="category"
+               value="{{ category }}">
+
+        <div class="filter-group">
+
+            <label>Sort By</label>
+
+            <select name="sort"
+                    onchange="this.form.submit()">
+
+                <option value="">Recommended</option>
+
+                <option value="low"
+                    {% if sort == "low" %}selected{% endif %}>
+                    Price: Low to High
+                </option>
+
+                <option value="high"
+                    {% if sort == "high" %}selected{% endif %}>
+                    Price: High to Low
+                </option>
+
+                <option value="rating"
+                    {% if sort == "rating" %}selected{% endif %}>
+                    Rating
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <div class="filter-group">
+
+            <label>Maximum Price</label>
+
+            <input
+                type="number"
+                name="max_price"
+                value="{{ max_price }}"
+                placeholder="Maximum price">
+
+        </div>
+
+
+        <button class="filter-button">
+            Apply
+        </button>
+
+        <a href="/" class="clear-filter">
+            Clear
+        </a>
+
+    </form>
+
+</section>
+
+
+{% if search or category %}
+
+<section class="search-result">
+
+    <h2>
+        {% if search %}
+            Search results for "{{ search }}"
+        {% elif category %}
+            {{ category }}
+        {% endif %}
+    </h2>
+
+    <p>
+        {{ products|length }} product(s) found
+    </p>
+
+</section>
+
+{% endif %}
+
+
+<section class="products-section"
+         id="products">
+
+    <div class="section-title">
+
+        <h2>
+            {% if search or category %}
+                Products
+            {% else %}
+                Best Deals
+            {% endif %}
+        </h2>
+
+    </div>
+
+
+    {% if products %}
+
+    <div class="product-grid">
+
+        {% for product in products %}
+
+        <div class="product-card">
+
+            <div class="product-image">
+
+                <img src="{{ product['image'] }}"
+                     alt="{{ product['name'] }}">
+
+            </div>
+
+
+            <div class="product-info">
+
+                <p class="product-category">
+                    {{ product['category'] }}
+                </p>
+
+                <h3>
+
+                    <a href="{{ url_for('product',
+                              product_id=product['id']) }}">
+
+                        {{ product['name'] }}
+
+                    </a>
+
+                </h3>
+
+
+                <div class="rating">
+                    ⭐ {{ product['rating'] }}
+                </div>
+
+
+                <div class="price">
+
+                    ₹{{ "%.0f"|format(product['price']) }}
+
+                    {% if product['old_price'] %}
+
+                    <span class="old-price">
+                        ₹{{ "%.0f"|format(product['old_price']) }}
+                    </span>
+
+                    {% endif %}
+
+                </div>
+
+
+                <p class="stock">
+
+                    {% if product['stock'] > 0 %}
+                        In Stock: {{ product['stock'] }}
+                    {% else %}
+                        <span class="out-stock">
+                            Out of Stock
+                        </span>
+                    {% endif %}
+
+                </p>
+
+
+                {% if product['stock'] > 0 %}
+
+                <a href="{{ url_for('add_to_cart',
+                          product_id=product['id']) }}"
+                   class="add-cart">
+
+                    🛒 Add to Cart
+
+                </a>
+
+                {% endif %}
+
+
+                {% if session.get("user_id") %}
+
+                <a href="{{ url_for('add_to_wishlist',
+                          product_id=product['id']) }}"
+                   class="wishlist-card-btn">
+
+                    ❤️ Wishlist
+
+                </a>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+    {% else %}
+
+    <div class="empty-box">
+
+        <div>🔍</div>
+
+        <h2>No products found</h2>
+
+        <p>Try another search or category.</p>
+
+        <a href="/" class="primary-btn">
+            Continue Shopping
+        </a>
+
+    </div>
+
+    {% endif %}
+
+</section>
+
+{% endblock %}

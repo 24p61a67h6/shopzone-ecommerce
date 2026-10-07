@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+
+{% block title %}Manage Products - ShopZone{% endblock %}
+
+{% block content %}
+
+<section class="admin-page">
+
+    <div class="admin-heading">
+
+        <h1>📦 Manage Products</h1>
+
+        <a href="{{ url_for('add_product') }}"
+           class="primary-btn">
+
+            + Add Product
+
+        </a>
+
+    </div>
+
+
+    <div class="admin-table-wrapper">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>ID</th>
+                    <th>Product</th>
+                    <th>Category</th>
+                    <th>Price</th>
+                    <th>Stock</th>
+                    <th>Actions</th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+            {% for product in products %}
+
+            <tr>
+
+                <td>
+                    {{ product['id'] }}
+                </td>
+
+                <td>
+                    {{ product['name'] }}
+                </td>
+
+                <td>
+                    {{ product['category'] }}
+                </td>
+
+                <td>
+                    ₹{{ "%.0f"|format(product['price']) }}
+                </td>
+
+                <td>
+                    {{ product['stock'] }}
+                </td>
+
+                <td>
+
+                    <a href="{{ url_for('edit_product',
+                              product_id=product['id']) }}"
+                       class="small-btn">
+
+                        Edit
+
+                    </a>
+
+                    <a href="{{ url_for('delete_product',
+                              product_id=product['id']) }}"
+                       class="delete-btn"
+                       onclick="return confirm('Delete this product?')">
+
+                        Delete
+
+                    </a>
+
+                </td>
+
+            </tr>
+
+            {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</section>
+
+{% endblock %}

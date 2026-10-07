@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+
+{% block title %}Manage Orders - ShopZone{% endblock %}
+
+{% block content %}
+
+<section class="admin-page">
+
+    <h1>🛒 Manage Orders</h1>
+
+
+    <div class="admin-table-wrapper">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>Order</th>
+                    <th>Customer</th>
+                    <th>Email</th>
+                    <th>Total</th>
+                    <th>Payment</th>
+                    <th>Status</th>
+                    <th>Update</th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+            {% for order in orders %}
+
+            <tr>
+
+                <td>
+                    #{{ order['id'] }}
+                </td>
+
+                <td>
+                    {{ order['name'] }}
+                </td>
+
+                <td>
+                    {{ order['email'] }}
+                </td>
+
+                <td>
+                    ₹{{ "%.0f"|format(order['total']) }}
+                </td>
+
+                <td>
+                    {{ order['payment'] }}
+                </td>
+
+                <td>
+                    {{ order['status'] }}
+                </td>
+
+                <td>
+
+                    <form method="POST"
+                          action="{{ url_for('update_order_status',
+                                  order_id=order['id']) }}">
+
+                        <select name="status">
+
+                            {% for status in [
+                                'Ordered',
+                                'Packed',
+                                'Shipped',
+                                'Out for Delivery',
+                                'Delivered',
+                                'Cancelled'
+                            ] %}
+
+                            <option
+                                value="{{ status }}"
+                                {% if order['status'] == status %}
+                                selected
+                                {% endif %}>
+
+                                {{ status }}
+
+                            </option>
+
+                            {% endfor %}
+
+                        </select>
+
+                        <button class="small-btn">
+                            Update
+                        </button>
+
+                    </form>
+
+                </td>
+
+            </tr>
+
+            {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</section>
+
+{% endblock %}

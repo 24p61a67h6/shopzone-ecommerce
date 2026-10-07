@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block title %}Add Product - ShopZone{% endblock %}
+
+{% block content %}
+
+<section class="page-section">
+
+    <div class="form-card">
+
+        <h1>Add Product</h1>
+
+        <form method="POST">
+
+            <label>Product Name</label>
+            <input type="text" name="name" required>
+
+            <label>Category</label>
+            <input type="text" name="category" required>
+
+            <label>Price</label>
+            <input type="number" name="price" step="0.01" required>
+
+            <label>Old Price</label>
+            <input type="number" name="old_price" step="0.01">
+
+            <label>Rating</label>
+            <input type="number"
+                   name="rating"
+                   min="0"
+                   max="5"
+                   step="0.1"
+                   value="0">
+
+            <label>Stock</label>
+            <input type="number"
+                   name="stock"
+                   min="0"
+                   value="10"
+                   required>
+
+            <label>Image URL</label>
+            <input type="text" name="image">
+
+            <label>Description</label>
+
+            <textarea name="description"></textarea>
+
+            <button class="primary-btn">
+                Add Product
+            </button>
+
+        </form>
+
+    </div>
+
+</section>
+
+{% endblock %}

@@ -1,0 +1,156 @@
+{% extends "base.html" %}
+
+{% block title %}{{ product['name'] }} - ShopZone{% endblock %}
+
+{% block content %}
+
+<section class="product-detail">
+
+    <div class="detail-image">
+
+        <img src="{{ product['image'] }}"
+             alt="{{ product['name'] }}">
+
+    </div>
+
+
+    <div class="detail-info">
+
+        <p class="product-category">
+            {{ product['category'] }}
+        </p>
+
+        <h1>{{ product['name'] }}</h1>
+
+        <div class="rating">
+            ⭐ {{ product['rating'] }}/5
+        </div>
+
+        <div class="detail-price">
+
+            ₹{{ "%.0f"|format(product['price']) }}
+
+            {% if product['old_price'] %}
+
+            <span class="old-price">
+                ₹{{ "%.0f"|format(product['old_price']) }}
+            </span>
+
+            {% endif %}
+
+        </div>
+
+        <p class="detail-description">
+            {{ product['description'] }}
+        </p>
+
+        <p class="stock">
+
+            {% if product['stock'] > 0 %}
+                ✅ In Stock: {{ product['stock'] }}
+            {% else %}
+                ❌ Out of Stock
+            {% endif %}
+
+        </p>
+
+
+        {% if product['stock'] > 0 %}
+
+        <a href="{{ url_for('add_to_cart',
+                  product_id=product['id']) }}"
+           class="large-btn">
+
+            🛒 Add to Cart
+
+        </a>
+
+        {% endif %}
+
+
+        {% if session.get("user_id") %}
+
+        <a href="{{ url_for('add_to_wishlist',
+                  product_id=product['id']) }}"
+           class="wishlist-large">
+
+            ❤️ Add to Wishlist
+
+        </a>
+
+        {% endif %}
+
+    </div>
+
+</section>
+
+
+<section class="reviews">
+
+    <h2>Customer Reviews</h2>
+
+
+    {% if session.get("user_id") %}
+
+    <form method="POST"
+          action="{{ url_for('add_review',
+                  product_id=product['id']) }}"
+          class="review-form">
+
+        <h3>Write a Review</h3>
+
+        <select name="rating" required>
+
+            <option value="">Rating</option>
+            <option value="5">⭐⭐⭐⭐⭐</option>
+            <option value="4">⭐⭐⭐⭐</option>
+            <option value="3">⭐⭐⭐</option>
+            <option value="2">⭐⭐</option>
+            <option value="1">⭐</option>
+
+        </select>
+
+        <textarea name="review"
+                  placeholder="Write your review..."
+                  required></textarea>
+
+        <button>
+            Submit Review
+        </button>
+
+    </form>
+
+    {% endif %}
+
+
+    {% for review in reviews %}
+
+    <div class="review">
+
+        <strong>
+            {{ review['name'] }}
+        </strong>
+
+        <div>
+            ⭐ {{ review['rating'] }}/5
+        </div>
+
+        <p>
+            {{ review['review'] }}
+        </p>
+
+        <small>
+            {{ review['created_at'] }}
+        </small>
+
+    </div>
+
+    {% else %}
+
+    <p>No reviews yet.</p>
+
+    {% endfor %}
+
+</section>
+
+{% endblock %}

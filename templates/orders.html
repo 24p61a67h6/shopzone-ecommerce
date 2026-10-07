@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% block title %}My Orders - ShopZone{% endblock %}
+
+{% block content %}
+
+<section class="page-section">
+
+    <h1>📦 My Orders</h1>
+
+
+    {% if orders %}
+
+        {% for order in orders %}
+
+        <div class="order-card">
+
+            <div>
+
+                <h3>
+                    Order #{{ order['id'] }}
+                </h3>
+
+                <p>
+                    {{ order['created_at'] }}
+                </p>
+
+            </div>
+
+
+            <div>
+
+                <strong>
+                    ₹{{ "%.0f"|format(order['total']) }}
+                </strong>
+
+                <span class="status">
+                    {{ order['status'] }}
+                </span>
+
+            </div>
+
+
+            <a href="{{ url_for('order_detail',
+                      order_id=order['id']) }}"
+               class="primary-btn">
+
+                View Order
+
+            </a>
+
+        </div>
+
+        {% endfor %}
+
+    {% else %}
+
+        <div class="empty-box">
+
+            <div>📦</div>
+
+            <h2>No orders yet</h2>
+
+            <p>
+                Your purchased products will appear here.
+            </p>
+
+            <a href="/" class="primary-btn">
+                Start Shopping
+            </a>
+
+        </div>
+
+    {% endif %}
+
+</section>
+
+{% endblock %}
